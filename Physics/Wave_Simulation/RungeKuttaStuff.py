@@ -1,15 +1,18 @@
 
+import math
 
 class RungeKutta:
 
-    def __init__(self, y, v_y, dt, c, k, mass, N, resting_length):
+    def __init__(self, y, v_y, x,  dt, c, k, mass, N, resting_length):
         self.y = y
         self.v_y = v_y
+        self.x = x
         self.dt = dt
 
         # Systems constants/parameters
         self.c = c
         self.k = k
+        #self.d = d
         self.mass = mass
         self.resting_length = resting_length
 
@@ -27,6 +30,7 @@ class RungeKutta:
         return self.v_y[i]
     def k1_vy(self, i):
         force_term = self.force(i) / self.mass
+
         velocity_term = - (self.c / self.mass) * self.v_y[i]
         position_term = - (self.k / self.mass) * (self.y[i] - self.resting_length[i])
 
@@ -37,6 +41,7 @@ class RungeKutta:
         return self.v_y[i] + (self.dt / 2.0) * self.k1_vy(i)
     def k2_vy(self, i):
         force_term = self.force(i) / self.mass
+
         velocity_term = - (self.c / self.mass) * (self.v_y[i] + (self.dt/2.0) * self.k1_vy(i))
         position_term = - (self.k / self.mass) * (self.y[i] + (self.dt/2.0) * (self.k1_y(i) - self.resting_length[i]))
 
@@ -47,6 +52,7 @@ class RungeKutta:
         return self.v_y[i] + (self.dt/2.0) * self.k2_vy(i)
     def k3_vy(self, i):
         force_term = self.force(i) / self.mass
+
         velocity_term = - (self.c / self.mass) * (self.v_y[i] + (self.dt / 2.0) * self.k2_vy(i))
         position_term = - (self.k / self.mass) * (self.y[i] + (self.dt / 2.0) * (self.k2_y(i) - self.resting_length[i]))
 
@@ -56,7 +62,9 @@ class RungeKutta:
     def k4_y(self, i):
         return self.v_y[i] + self.dt * self.k3_vy(i)
     def k4_vy(self, i):
+
         force_term = self.force(i) / self.mass
+
         velocity_term = - (self.c / self.mass) * (self.v_y[i] + (self.dt / 2.0) * self.k3_vy(i))
         position_term = - (self.k / self.mass) * (self.y[i] + (self.dt / 2.0) * (self.k3_y(i) - self.resting_length[i]))
 
@@ -64,5 +72,14 @@ class RungeKutta:
 
 
     def force(self, spot):
-        return 0#(1.0 / self.mass) * (self.y[spot-1] - self.y[spot+1])
+        # return (1.0 / self.mass) * (self.y[spot-1] - self.y[spot+1])
+        return 30*self.y[spot - 1]
 
+        #if spot != 0:
+            #force = self.y[spot - 1] + math.sqrt(math.pow(self.d,2) - math.pow(self.x[spot] - self.x[spot - 1], 2))
+        #else:
+        #    force = 0
+
+        return force
+    def driving_force(self):
+        pass
