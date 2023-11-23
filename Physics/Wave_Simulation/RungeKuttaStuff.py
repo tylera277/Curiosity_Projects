@@ -31,7 +31,7 @@ class RungeKutta:
         velocity_term = - (self.c / self.mass) * self.v_y[i]
         position_term = - (self.k / self.mass) * (self.y[i] - self.resting_length[i])
 
-        return (force_term + velocity_term + position_term)
+        return force_term + velocity_term + position_term
 
 
     def k2_y(self, i):
@@ -65,5 +65,5 @@ class RungeKutta:
 
 
     def force(self, spot):
-        return 0#(1.0 / self.mass) * (self.y[spot-1] - self.y[spot+1])
+        #return 20*(self.y[spot - 1] - self.resting_length[spot])
 

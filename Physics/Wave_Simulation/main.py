@@ -27,22 +27,10 @@ total_time = 50
 # Initializing Needed Vectors, with an initial condition
 y_position = np.zeros(number_of_springs)
 y_velocity = np.zeros(number_of_springs)
-x = np.linspace(0, total_time, number_of_springs)
+x_position = np.linspace(0, total_time, number_of_springs)
+x_velocity = np.zeros(number_of_springs)
 resting_length = np.zeros(number_of_springs)
 
-# Initializing position and velocity
-for spring in range(1, number_of_springs-1, 1):
-    y_position[spring] = math.sin(x[spring])
-    y_velocity[spring] = - math.sqrt(spring_constant / mass) * math.cos(x[spring])
-
-# Initializing spring lengths
-place = 0
-slope = 1 / (x[number_of_springs-1] - x[int((1.0/2.0)*number_of_springs)])
-for spring in range(int((1.0/2.0)*number_of_springs), number_of_springs-1, 1):
-#for spring in range(1, number_of_springs-1, 1):
-    place += 1
-    resting_length[spring] = -slope * x[spring]
-    #resting_length[spring] = 5
 
 rk = RungeKutta(y_position, y_velocity, time_step_size,
                 damping_coefficient, spring_constant, mass, number_of_springs,
